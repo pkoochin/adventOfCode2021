@@ -17,9 +17,9 @@ public class Program
             .ToList();
 
         var cards = new List<Card>();
-        foreach (var card in cardData)
+        foreach (var cData in cardData)
         {
-            cards.Add(new Card(card,cardSize));
+            cards.Add(new Card(cData,cardSize));
         }
 
         var winnerFound = false;
@@ -27,8 +27,8 @@ public class Program
         var winnerIndex = -1;
         calledNumbers.ForEach(number =>
         {
-            
-            foreach(var card in cards.Select( (c,i) => new {card=c,index=i}).ToList())            
+            var indexedCards = cards.Select((c, i) => new { card = c, index = i }).ToList();
+            foreach (var card in indexedCards)            
             {
                 if (winnerFound) { break; }
                 card.card.MarkNumber(number);
@@ -74,10 +74,6 @@ public class Program
         Console.WriteLine("Last Winning Card Score: " + cards[lastWinnerIndex].SumUnMarkedNumbers());
         Console.WriteLine("Last Final Score: " + cards[lastWinnerIndex].SumUnMarkedNumbers() * finalNumber);
         return;
-    }
-    public void PartOne(List<List<Card>> cards)
-    {
-
     }
 }
 
@@ -150,7 +146,7 @@ public class Card
         {
             for (int j = 0; j < cardSize; j++)
             {
-                if (Numbers[i, j].Marked == false)
+                if (!Numbers[i, j].Marked)
                 {
                     sum += Numbers[i, j].Value;
                 }
